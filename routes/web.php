@@ -13,8 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', '\App\Http\Controllers\BankController@index');
+Route::get('/', 'BankController@index');
+
+Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
+    Route::get('currency', 'CurrencyController@index')->name('currency.index');
+    Route::post('currency/action', 'CurrencyController@action')->name('currency.action');
+});
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
