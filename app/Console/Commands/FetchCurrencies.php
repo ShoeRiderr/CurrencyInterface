@@ -15,7 +15,7 @@ class FetchCurrencies extends Command
      *
      * @var string
      */
-    protected $signature = 'currencies:fetch';
+    protected $signature = 'currency:fetch';
 
     /**
      * The console command description.
