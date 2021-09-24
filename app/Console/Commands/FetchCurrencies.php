@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Http;
 use App\Models\Currency;
-use Illuminate\Support\Arr;
+use App\Services\CurrencyService;
 
 class FetchCurrencies extends Command
 {
@@ -23,51 +24,42 @@ class FetchCurrencies extends Command
      */
     protected $description = 'Fetch all currencies from NBP API';
 
+    private CurrencyService $currencyService;
+
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(CurrencyService $currencyService)
     {
         parent::__construct();
+
+        $this->currencyService = $currencyService;
     }
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): void
     {
-        $url = config('NBP.nbp_web_api_url');
-
-        $responseA = Http::get(sprintf('%s/exchangerates/tables%s', $url, '/A/'))->json();
-        $responseB = Http::get(sprintf('%s/exchangerates/tables%s', $url, '/B/'))->json();
-        $responseC = Http::get(sprintf('%s/exchangerates/tables%s', $url, '/C/'))->json();
+        $responseA = $this->currencyService->setData('exchangerates/tables/A/')->toJson();
+        $responseB = $this->currencyService->setData('exchangerates/tables/B/')->toJson();
+        $responseC = $this->currencyService->setData('exchangerates/tables/C/')->toJson();
 
         $responses = collect($responseA)->concat($responseB)->concat($responseC);
 
         $rates = $responses->pluck('rates')->each(function ($rates) {
             collect($rates)->each(function ($rate) {
-                if (Arr::has($rate, 'ask') || Arr::has($rate, 'bid')) {
-                    $currency = Currency::where('code', Arr::get($rate, 'code'))->first();
+                $rate = collect($rate)->filter(function ($item) {
+                    return !is_null($item);
+                });
 
-                    $currency->update([
-                        'bid' => Arr::get($rate, 'bid'),
-                        'ask' => Arr::get($rate, 'ask'),
-                    ]);
-                } else {
-                    Currency::updateOrCreate(
-                        ['code' => Arr::get($rate, 'code')],
-                        [
-                            'currency' => Arr::get($rate, 'currency'),
-                            'mid' => Arr::get($rate, 'mid'),
-                        ]
-                    );
-                }
+                Currency::updateOrCreate(
+                    ['code' => $rate->pull('code')],
+                    $rate->toArray()
+                );
             });
         });
-        
     }
 }

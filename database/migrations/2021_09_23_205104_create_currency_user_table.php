@@ -18,6 +18,8 @@ class CreateCurrencyUserTable extends Migration
                 ->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('currency_id')->constrained()
                 ->cascadeOnUpdate()->cascadeOnDelete();
+
+            $table->primary(['user_id', 'currency_id']);
         });
     }
 

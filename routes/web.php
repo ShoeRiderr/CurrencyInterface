@@ -17,7 +17,7 @@ Route::get('/', 'BankController@index');
 
 Route::group(['prefix' => 'user', 'namespace' => 'User'], function () {
     Route::get('currency', 'CurrencyController@index')->name('currency.index');
-    Route::post('currency/action', 'CurrencyController@action')->name('currency.action');
+    Route::post('currency/action', \Currency\ActionController::class)->name('currency.action');
 });
 
 Auth::routes();
