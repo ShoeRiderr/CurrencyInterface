@@ -30,6 +30,16 @@ Kiedy wszystko jest już ustawione prawidłowo należy zapełnić bazę danych t
 
 ### php artisan migrate
 
+Następnie pozostaje załadować zmiany do pliku public poleceniem:
+
+### npm run prod
+
+A następnie uruchomić serwer:
+
+### php artisan serve
+
+Aplikacja domyślnie będzie dostępna pod adresem http://127.0.0.1:8000
+
 # EN
 
 ## Install instruction for Linux
@@ -61,6 +71,16 @@ You have to set DB_USERNAME and DB_PASSWORD variables with login data to your da
 When everything is set correctly you have to fill your database with tables. You can make it with command:
 
 ### php artisan migrate
+
+Then start the project with commands:
+
+### npm run prod
+
+and
+
+### php artisan serve
+
+The app by default will be available on http://127.0.0.1:8000 url.
 
 ## Pobieranie walut / Fetch currencies
 
