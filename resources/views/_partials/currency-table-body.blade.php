@@ -7,7 +7,7 @@
             <td>{{ $currency->bid ?? '-' }}</td>
             <td>{{ $currency->updated_at }}</td>
             <td>
-                <input type="checkbox" name="currencies[]" value="{{ $currency->id }}">
+                <input type="checkbox" name="currencies[]" value="{{ $currency->id }}" {{ $userCurrencies->has($currency->id) ? 'checked' : '' }}>
             </td>
         </tr>
 @endforeach

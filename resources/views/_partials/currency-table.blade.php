@@ -14,7 +14,8 @@
         <form id="currency-form" method="POST" action="{{ route('currency.action') }}">
             @csrf
             @include('_partials.currency-table-body', [
-                'currencies' => $currencies
+                'currencies' => $currencies,
+                'userCurrencies' => isset($userCurrencies) ? $userCurrencies : collect()
             ])
         </form>
     </tbody>

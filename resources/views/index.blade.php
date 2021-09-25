@@ -16,7 +16,8 @@
                 <h2>Lista walut</h2>
 
                 @include('_partials.currency-table', [
-                    'currencies' => $currencies
+                    'currencies' => $currencies,
+                    'userCurrencies' => $userCurrencies
                 ])
 
                 <div class="d-flex flex-row-reverse p-3">

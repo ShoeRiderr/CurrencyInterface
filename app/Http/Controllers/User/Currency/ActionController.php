@@ -4,7 +4,6 @@ namespace App\Http\Controllers\User\Currency;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use App\Enums\ActionType;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +17,7 @@ class ActionController extends Controller
      */
     public function __invoke(Request $request): RedirectResponse
     {
-        $user = User::find(Auth::id());
+        $user = Auth::user();
         // dd($user->currencies);
         if (empty($user)){
             return redirect()->to('/');

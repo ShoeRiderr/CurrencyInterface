@@ -6,7 +6,6 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 class CurrencyController extends Controller
 {
@@ -15,7 +14,7 @@ class CurrencyController extends Controller
      */
     public function index()
     {
-        $user = User::find(Auth::id());
+        $user = Auth::user();
 
         if (empty($user)){
             return redirect()->to('/');
