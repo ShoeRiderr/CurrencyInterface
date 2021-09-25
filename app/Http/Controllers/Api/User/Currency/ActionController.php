@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User\Currency;
+namespace App\Http\Controllers\Api\User\Currency;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;

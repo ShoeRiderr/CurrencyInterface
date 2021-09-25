@@ -9,12 +9,13 @@
     "license": "MIT",
     "require": {
         "php": "^7.4|^8.0",
+        "bensampo/laravel-enum": "^2.0.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.3",
         "laravel/framework": "^7.29",
+        "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "bensampo/laravel-enum": "^2.0.0",
         "laravel/ui": "^2.4"
     },
     "require-dev": {
