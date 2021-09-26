@@ -23,6 +23,6 @@ class CurrencyController extends Controller
             return new JsonResponse('Użytkownik jest nie zalogowany', 401);
         }
 
-        return CurrencyResource::collection($$user->currencies);
+        return CurrencyResource::collection($user->currencies);
     }
 }

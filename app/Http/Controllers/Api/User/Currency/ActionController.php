@@ -7,6 +7,9 @@ use Illuminate\Http\RedirectResponse;
 use App\Enums\ActionType;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\User\ActionRequest;
+use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Http\JsonResponse;
+use App\Http\Resources\CurrencyResource;
 
 class ActionController extends Controller
 {
@@ -14,13 +17,14 @@ class ActionController extends Controller
      * Handle the incoming request.
      *
      * @param  \App\Http\Requests\User\ActionRequest  $request
+     * @return  \Illuminate\Contracts\Support\Responsable|\Illuminate\Http\JsonResponse
      */
-    public function __invoke(ActionRequest $request): RedirectResponse
+    public function __invoke(ActionRequest $request)
     {
         $user = Auth::user();
 
         if (empty($user)){
-            return redirect()->to('/');
+            return new JsonResponse('Użytkownik jest nie zalogowany', 401);
         }
 
         switch ($request->input('state')) {
@@ -33,13 +37,13 @@ class ActionController extends Controller
 
                 $user->currencies()->attach($currencyIds);
 
-                return redirect()->to('/')->with('message', 'Pomyślnie dodano waluty do ulubionej listy');
+                return CurrencyResource::collection($user->currencies);
             case ActionType::REMOVE_FAVOURITES:
                 $user->currencies()->detach($request->input('currencies'));
 
-                return redirect()->to(route('currency.index'))->with('message', 'Pomyślnie usunięto waluty z ulubionej listy');
+                return CurrencyResource::collection($user->currencies);
+            default:
+                return new JsonResponse('Użytkownik jest nie zalogowany', 401);
         }
-
-        return redirect()->to('/');
     }
 }

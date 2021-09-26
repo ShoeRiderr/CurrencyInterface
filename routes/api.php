@@ -19,9 +19,11 @@ Route::middleware('auth')->get('/user', function (Request $request) {
     return UserResource::make($request->user());
 });
 
-Route::get('bank', 'Api\BankController@index');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('bank', 'Api\BankController@index');
 
-Route::group(['prefix' => 'user'], function () {
-    Route::get('currency', 'Api\User\CurrencyController@index');
-    Route::post('currency/action', \Api\User\Currency\ActionController::class);
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('currency', 'Api\User\CurrencyController@index');
+        Route::post('currency/action', \Api\User\Currency\ActionController::class);
+    });
 });
