@@ -5,15 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Currency;
-use App\Http\Resources\CurrencyResource;
-use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Http\JsonResponse;
 
 class BankController extends Controller
 {
-    public function index(): Responsable
+    public function index(): JsonResponse
     {
         $currencies = Currency::all();
 
-        return CurrencyResource::collection($currencies);
+        return new JsonResponse(Currency::paginate(20), 200);
     }
 }
