@@ -28,7 +28,7 @@ Zmienne DB_USERNAME i DB_PASSWORD należy ustawić według danych, które używa
 
 Kiedy wszystko jest już ustawione prawidłowo należy zapełnić bazę danych tabelami, puszczając tzw. migracje za pomocą polecenia:
 
-### php artisan migrate
+### php artisan migrate --seed
 
 Następnie pozostaje załadować zmiany do pliku public poleceniem:
 
