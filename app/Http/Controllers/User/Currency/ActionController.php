@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers\User\Currency;
 
+use App\Enums\ActionType;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
-use App\Enums\ActionType;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\User\ActionRequest;
 
 class ActionController extends Controller
 {
     /**
      * Handle the incoming request.
      *
-     * @param  \App\Http\Requests\User\ActionRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      */
-    public function __invoke(ActionRequest $request): RedirectResponse
+    public function __invoke(Request $request): RedirectResponse
     {
         $user = Auth::user();
 
-        if (empty($user)){
+        if (empty($user)) {
             return redirect()->to('/');
         }
 
@@ -34,12 +34,14 @@ class ActionController extends Controller
                 $user->currencies()->attach($currencyIds);
 
                 return redirect()->to('/')->with('message', 'Pomyślnie dodano waluty do ulubionej listy');
+
             case ActionType::REMOVE_FAVOURITES:
                 $user->currencies()->detach($request->input('currencies'));
 
                 return redirect()->to(route('currency.index'))->with('message', 'Pomyślnie usunięto waluty z ulubionej listy');
-        }
 
-        return redirect()->to('/');
+                default:
+                    return redirect()->to('/');
+        }
     }
 }
