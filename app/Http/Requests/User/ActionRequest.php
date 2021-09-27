@@ -27,7 +27,7 @@ class ActionRequest extends FormRequest
     public function rules()
     {
         return [
-            'state' => ['required', new EnumValue(ActionType::class)],
+            'state' => ['required', new EnumValue(ActionType::class, false)],
             'currencies' => ['required', 'array'],
             'currencies.*' => ['required', 'exists:currencies,id'],
         ];
